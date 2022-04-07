@@ -1,0 +1,130 @@
+$app_bgc: #222222; // 背景色碼(含跑馬燈)
+$marquee_height: 10vh; // 跑馬燈容器的高度
+
+@mixin box_style($bgc, $position, $z-index, $top, $left, $name, $delay, $grid-area) {
+    width: 0;
+    height: 0;
+    background-color: rgba($color: $bgc, $alpha: 0.6);
+    color: transparent;
+    position: $position;
+    z-index: $z-index;
+    top: $top;
+    left: $left;
+    animation: $name 0.4s $delay 1 ease forwards;
+    grid-area: $grid-area;
+}
+
+// 跑馬燈的css
+.marquee-box {
+    width: 100%;
+    height: $marquee_height;
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+
+    // 上面是外部容器，下面是文字
+    span {
+        margin: 0 auto;
+        color: darkgoldenrod;
+        line-height: $marquee_height;
+        position: absolute;
+        animation: 15s move infinite linear;
+    }
+}
+
+// 主頁方塊的CSS
+.item {
+    height: calc((100vh - $marquee_height) / 2);
+    background-color: cornflowerblue;
+    background-size: cover;
+    color: white;
+
+    &:hover {
+        animation: fade 600ms 2;
+    }
+}
+
+// 燈箱的背景CSS
+.background {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba($color: green, $alpha: 0.6);
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    animation: spark 100ms 3 ease;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 10vh 1fr 1fr 8vh;
+    grid-template-areas: "top-text top-text" "box1 box2" "box3 box3" "rest rest";
+
+    @media screen and (min-width: 768px) and (max-width: 1279.98px) {
+        display: block;
+    }
+
+    @media screen and (min-width: 1280px) {
+        display: block;
+    }
+}
+
+// 燈箱中每個box的CSS
+.box1 {
+    @include box_style(red, static, 1001, 18vh, 15vw, expand_mob, 0.4s, box1);
+    background-size: cover;
+}
+
+.box2 {
+    @include box_style(blue, static, 1003, 38vh, 30vw, expand_mob, 0.8s, box2);
+    background-size: cover;
+}
+
+.box3 {
+    @include box_style(yellow, static, 1002, 22vh, 45vw, expand_mob, 1.2s, box3);
+}
+
+@media screen and (min-width: 768px) and (max-width: 1279.98px) {
+    .box1 {
+        position: absolute;
+        top: 15vh;
+        left: 15vw;
+        animation: expand1_pad 0.4s 0.4s 1 ease forwards;
+    }
+
+    .box2 {
+        position: absolute;
+        top: 35vh;
+        left: 40vw;
+        animation: expand2_pad 0.4s 0.8s 1 ease forwards;
+    }
+
+    .box3 {
+        position: absolute;
+        top: 60vh;
+        left: 12vw;
+        animation: expand3_pad 0.4s 1.2s 1 ease forwards;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .box1 {
+        position: absolute;
+        top: 18vh;
+        left: 15vw;
+        animation: expand1_pc 0.4s 0.4s 1 ease forwards;
+    }
+
+    .box2 {
+        position: absolute;
+        top: 38vh;
+        left: 30vw;
+        animation: expand2_pc 0.4s 0.8s 1 ease forwards;
+    }
+
+    .box3 {
+        position: absolute;
+        top: 23vh;
+        left: 45vw;
+        animation: expand3_pc 0.4s 1.2s 1 ease forwards;
+    }
+}
